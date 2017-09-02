@@ -14,12 +14,15 @@ This node use with node-red-contrib-wwsNodes.
   - This node adds '"x-graphql-view": "PUBLIC, BETA"' in headers.
 
 
-## Usage: annotations
+## Usage: annotations setting
 There are two ways to specify annotations.
 
 **When setting to the property of the node**
 
-annotations property: [{genericAnnotation: {title: "Sample Title", text: "Sample Body", buttons: [{postbackButton: {title: "Sample Button", id: "Sample_Button", style: PRIMARY}}]}}]
+annotations property: 
+```html:example
+[{genericAnnotation: {title: "Sample Title", text: "Sample Body", buttons: [{postbackButton: {title: "Sample Button", id: "Sample_Button", style: PRIMARY}}]}}]
+```
 
 **When setting with the previous function node**
 

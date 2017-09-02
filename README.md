@@ -1,5 +1,7 @@
 # node-red-contrib-www-example1
 
+![Badge Status](https://services-as-a-ci)
+
 ## Overview
 This node of Node-RED nodes is for Watson Workspace Action Fulfillment. 
 This node use with node-red-contrib-wwsNodes.
@@ -11,7 +13,7 @@ This node use with node-red-contrib-wwsNodes.
   - This node adds '"x-graphql-view": "PUBLIC, BETA"' in headers.
 
 
-## How to use
+## Usage
 Example
 
 **When setting to the property of the node**

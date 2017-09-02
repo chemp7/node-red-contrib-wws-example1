@@ -21,34 +21,58 @@
         defaults: {
             name: {value:""},
             wwsApplications: {value:"",type:"wwsApplications"},
-            query: {value:"createTargetedMessage"}
+            actionId: {value:""},
+            queryType: {value:"createTargetedMessage"},
+            annotations: {value:""}
         },
         inputs:1,
         outputs:1,
         icon: "wws.png",
         label: function() {
             return this.name||"wws action fulfillment";
+        },
+        oneditprepare: function() {
+            $("#node-input-queryType").change(function() {
+	            var v = $("#node-input-queryType option:selected").val();
+	            if (v === "createTargetedMessage") {
+	                $(".node-prop-row-annotations").show();
+                } else if (v === "use") {
+	                $("#node-input-annotations").val("");
+	                $(".node-prop-row-annotations").hide();
+                }
+            });
         }
     });
 </script>
 
 <script type="text/x-red" data-template-name="actionfulfillment">
     <div class="form-row">
-        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-wwsApplications"><i class="icon-tag"></i> WWS App</label>
+        <label for="node-input-wwsApplications"><i class="fa fa-tag"></i> WWS App</label>
         <input type="text" id="node-input-wwsApplications" placeholder="Waston Work App">
     </div>
     <div class="form-row">
-        <label for="node-input-query"><i class="fa fa-tasks"></i> Query</label>
-        <select type="text" id="node-input-query" style="width:72%;">
+        <label for="node-input-actionId"><i class="fa fa-hashtag"></i> actionId</label>
+        <input type="text" id="node-input-actionId" placeholder="actionId of your app">
+    </div>
+    <div class="form-row">
+        <label for="node-input-queryType"><i class="fa fa-tasks"></i> queryType</label>
+        <select type="text" id="node-input-queryType" style="width:72%;">
 	        <option value="createTargetedMessage">createTargetedMessage</option>
+            <option value="use">- set by msg.queryType -</option>
         </select>
     </div>
+    <div class="form-row node-prop-row-annotations">
+	    <label for="node-input-annotations"><i class="fa fa-window-maximize"></i> annotations</label>
+        <input type="text" id="node-input-annotations" placeholder='e.g. [{genericAnnotation: {title: "Sample Title", text: "Sample Body", buttons: [{postbackButton: {title: "Sample Button", id: "Sample_Button", style: PRIMARY}}]}}]'>
+    </div>
+    <div class="form-tips">If actionId is set, Query posted if it is the same as the received actionId.</div>
 </script>
 
 <script type="text/x-red" data-help-name="actionfulfillment">
+    <p>This node post query of createTargetedMessage.</p>
     <p>This node adds '"x-graphql-view": "PUBLIC, BETA"' in headers.</p>
 </script>

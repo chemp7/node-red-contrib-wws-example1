@@ -1,7 +1,7 @@
 {
   "name": "node-red-contrib-wws-example1",
   "version": "0.0.1",
-  "description": "This collection of Node-RED nodes is for Watson Workspace Action Fulfillment.",
+  "description": "This node of Node-RED nodes is for Watson Workspace Action Fulfillment. This node use with node-red-contrib-wwsNodes.",
   "author": "Takeshi Yoshida",
   "bugs": {
     "url": "https://github.com/chemp7/node-red-contrib-wws-example1/issues"
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/chemp7/node-red-contrib-wws-example1.git"
   },
-  "keywords": [ "" ],
+  "keywords": [ "node-red" ],
   "node-red": {
     "nodes": {
       "wws-actionfulfillment": "actionfulfillment.js"

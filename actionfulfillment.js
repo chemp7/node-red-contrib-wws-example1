@@ -22,51 +22,63 @@ module.exports = function(RED) {
 	function actionfulfillment(n) {
 		RED.nodes.createNode(this, n);
 		this.wwsApplications = RED.nodes.getNode(n.wwsApplications);
-
+        var nodeQueryType = n.queryType || "use";
+        var nodeActionId = n.actionId;
+        var nodeAnnotations = n.annotations;
+		
 		this.on('input', function(msg) {
 			var appId = this.wwsApplications.appId;
 			var appSecret = this.wwsApplications.appSecret;
 			var token = this.wwsApplications.accessToken;
-//			var query = n.graphQLQuery;
 			var node = this;
-			
-			console.log("**************");
+			var annotations = msg.annotations;
+			var queryType = msg.queryType;
+			var actionId = msg.actionId;			
+			var query;
+			annotations = '[{genericAnnotation: {title: "Sample Title", text: "Sample Body", buttons: [{postbackButton: {title: "Sample Button", id: "Sample_Button", style: PRIMARY}}]}}]';
 			var wwscb = msg.payload;
-			console.log("**************");
 			var annotationPayload = JSON.parse(wwscb.annotationPayload);
-			console.log("**************");
 			var conversationId = annotationPayload.conversationId;
 			var targetUserId = annotationPayload.updatedBy;
 			var targetDialogId = annotationPayload.targetDialogId;
-			
+			var actionId = annotationPayload.actionId;
 			console.log("**************");
 			console.log("conversationId: " + conversationId);
 			console.log("targetUserId: " + targetUserId);
 			console.log("targetDialogId: " + targetDialogId);
+			console.log("actionId: " + actionId);
+			console.log("actionId2: " + nodeActionId);
 			console.log("**************");
-			var query = "mutation {" + "createTargetedMessage(input: {" +
-				'conversationId: "' + conversationId + '"' +
-				'targetUserId: "' + targetUserId + '"' +
-				'targetDialogId: "' + targetDialogId + '"' +
-				'annotations: [{genericAnnotation: {title: "Sample Title", text: "Sample Body", buttons: [{postbackButton: {title: "Sample Button", id: "Sample_Button", style: PRIMARY}}]}}]' +
-				'attachments: []' + 
-				'}) {successful}}';
 
-			console.log("query: " + query);
-			
-			sendQuery(query, token, function(err, body) {
-				if (err) {
-					node.error("Query error: " + query +" (error: " + err + ")");
-					node.status({fill:"red",shape:"dot",text:"Query error"});
-				} else {
-					node.status({fill:"green",shape:"dot",text:"Post Ok"});
-					try {
-						msg.payload = JSON.parse(body);
-						node.send(msg);
-					}
-					catch(e) { node.error("JSON Parse error: " + body); }
+			if (nodeQueryType !== "use"){
+				queryType = nodeQueryType;
+				annotations = nodeAnnotations;
+			}
+
+			if (nodeActionId !== "" && nodeActionId !== actionId) {
+					node.status({fill:"blue",shape:"dot",text:"This msg was not the target actionId."});
+					node.send(msg);
+			} else {
+				if (queryType === "createTargetedMessage") {
+					query = generateQueryStringCreateTargetedMessage(conversationId, targetUserId, targetDialogId, annotations);
 				}
-			});
+		
+				console.log("query: " + query);
+					
+				sendQuery(query, token, function(err, body) {
+					if (err) {
+						node.error("Query error: " + query +" (error: " + err + ")");
+						node.status({fill:"red",shape:"dot",text:"Query error"});
+					} else {
+						node.status({fill:"green",shape:"dot",text:"Post Ok"});
+						try {
+							msg.payload = JSON.parse(body);
+							node.send(msg);
+						}
+						catch(e) { node.error("JSON Parse error: " + body); }
+					}
+				});
+			}
 		});
 	}
 	
@@ -108,5 +120,17 @@ module.exports = function(RED) {
 			}
 			return;
 		});	
+	}
+
+	function generateQueryStringCreateTargetedMessage(conversationId, targetUserId, targetDialogId, annotations) {
+		var query = "mutation {" + "createTargetedMessage(input: {" +
+		'conversationId: "' + conversationId + '"' +
+		'targetUserId: "' + targetUserId + '"' +
+		'targetDialogId: "' + targetDialogId + '"' +
+		'annotations: ' + annotations +
+		'attachments: []' + 
+		'}) {successful}}';
+
+		return query;
 	}
 };

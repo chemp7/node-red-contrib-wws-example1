@@ -1,6 +1,7 @@
 # node-red-contrib-www-example1
 
-![Badge Status](https://services-as-a-ci)
+[![Version α](https://img.shields.io/badge/Version-Alpha-green.svg)]
+
 
 ## Overview
 This node of Node-RED nodes is for Watson Workspace Action Fulfillment. 

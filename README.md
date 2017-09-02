@@ -15,9 +15,11 @@ This node use with node-red-contrib-wwsNodes.
 Example
 
 **When setting to the property of the node**
+
 annotations property: [{genericAnnotation: {title: "Sample Title", text: "Sample Body", buttons: [{postbackButton: {title: "Sample Button", id: "Sample_Button", style: PRIMARY}}]}}]
 
 **When setting with the previous function node**
+
 msg.annotations = [{
     genericAnnotation: {
         title: "Sample Title", 

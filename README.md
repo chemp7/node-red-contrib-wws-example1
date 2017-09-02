@@ -1,6 +1,6 @@
 # node-red-contrib-www-example1
 
-[![Version α](https://img.shields.io/badge/Version-Alpha-green.svg)]
+![Version: Alpha](https://img.shields.io/badge/Version-Alpha-yellow.svg)
 
 
 ## Overview
@@ -23,6 +23,7 @@ annotations property: [{genericAnnotation: {title: "Sample Title", text: "Sample
 
 **When setting with the previous function node**
 
+```html:function node
 msg.annotations = [{
     genericAnnotation: {
         title: "Sample Title", 
@@ -36,7 +37,7 @@ msg.annotations = [{
         }]
     }
 }];
-
+```
 
 ## Licence
 

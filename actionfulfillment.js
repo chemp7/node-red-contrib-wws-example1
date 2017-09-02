@@ -31,29 +31,29 @@ module.exports = function(RED) {
 			var appSecret = this.wwsApplications.appSecret;
 			var token = this.wwsApplications.accessToken;
 			var node = this;
-			var annotations = msg.annotations;
+			var annotations = "";
+			if (msg.hasOwnProperty("annotations")) {
+				annotations = generateStringAnnotations(msg.annotations);
+				console.log("-------------");
+				console.log(annotations);
+				console.log("-------------");
+			}
+			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
+			console.log(annotations);
+			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@");
+			
 			var queryType = msg.queryType;
 			var actionId = msg.actionId;			
 			var query;
-			annotations = '[{genericAnnotation: {title: "Sample Title", text: "Sample Body", buttons: [{postbackButton: {title: "Sample Button", id: "Sample_Button", style: PRIMARY}}]}}]';
 			var wwscb = msg.payload;
 			var annotationPayload = JSON.parse(wwscb.annotationPayload);
 			var conversationId = annotationPayload.conversationId;
 			var targetUserId = annotationPayload.updatedBy;
 			var targetDialogId = annotationPayload.targetDialogId;
 			var actionId = annotationPayload.actionId;
-			console.log("**************");
-			console.log("conversationId: " + conversationId);
-			console.log("targetUserId: " + targetUserId);
-			console.log("targetDialogId: " + targetDialogId);
-			console.log("actionId: " + actionId);
-			console.log("actionId2: " + nodeActionId);
-			console.log("**************");
 
-			if (nodeQueryType !== "use"){
-				queryType = nodeQueryType;
-				annotations = nodeAnnotations;
-			}
+			if (nodeQueryType !== "use") { queryType = nodeQueryType; }
+			if (nodeAnnotations !== "") { annotations = nodeAnnotations; }
 
 			if (nodeActionId !== "" && nodeActionId !== actionId) {
 					node.status({fill:"blue",shape:"dot",text:"This msg was not the target actionId."});
@@ -132,5 +132,24 @@ module.exports = function(RED) {
 		'}) {successful}}';
 
 		return query;
+	}
+
+	function generateStringAnnotations(annotations) {
+		var str = "";
+		try {
+			str = JSON.stringify(annotations);
+		}
+		catch(e) { node.error("JSON Parse error (msg.annotations): " + msg.annotations); }
+//		var r = '[{genericAnnotation: {title: "Sample Title", text: "Sample Body", buttons: [{postbackButton: {title: "Sample Button", id: "Sample_Button", style: PRIMARY}}]}}]';
+		str = str.replace(/\"genericAnnotation\"/g, 'genericAnnotation');
+		str = str.replace(/\"title\"/g, 'title');
+		str = str.replace(/\"text\"/g, 'text');
+		str = str.replace(/\"buttons\"/g, 'buttons');
+		str = str.replace(/\"postbackButton\"/g, 'postbackButton');
+		str = str.replace(/\"id\"/g, 'id');
+		str = str.replace(/\"style\"/g, 'style');
+		str = str.replace(/\"PRIMARY\"/g, 'PRIMARY');
+		str = str.replace(/\"SECONDARY\"/g, 'SECONDARY');
+		return str; 
 	}
 };

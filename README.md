@@ -4,7 +4,7 @@
 
 
 ## Overview
-This node of Node-RED nodes is for Watson Workspace Action Fulfillment. 
+This node of Node-RED nodes is for Watson Workspace Action Fulfillment.
 This node use with node-red-contrib-wwsNodes.
 
 ## Node
@@ -14,8 +14,8 @@ This node use with node-red-contrib-wwsNodes.
   - This node adds '"x-graphql-view": "PUBLIC, BETA"' in headers.
 
 
-## Usage
-Example
+## Usage: annotations
+There are two ways to specify annotations.
 
 **When setting to the property of the node**
 
@@ -23,7 +23,7 @@ annotations property: [{genericAnnotation: {title: "Sample Title", text: "Sample
 
 **When setting with the previous function node**
 
-```html:function node
+```html:example
 msg.annotations = [{
     genericAnnotation: {
         title: "Sample Title", 

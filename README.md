@@ -1,6 +1,6 @@
 # node-red-contrib-www-example1
 
-![Version: 0.0.1](https://img.shields.io/badge/Version-Alpha%200.0.1-green.svg)
+![Version: 0.0.1](https://img.shields.io/badge/Version-0.0.1-green.svg)
 
 
 ## Overview

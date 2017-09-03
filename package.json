@@ -19,19 +19,6 @@
     }
   },
   "dependencies": {
-    "body-parser": "*",
-    "cfenv": "*",
-    "cookie-parser": "*",
-    "cors": "*",
-    "crypto": "latest",
-    "express": "*",
-    "http": "*",
-    "https": "*",
-    "is-utf8": "*",
-    "jsonwebtoken": "*",
-    "media-typer": "*",
-    "on-headers": "*",
-    "raw-body": "*",
     "request": "*",
     "url": "*"
   }

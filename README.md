@@ -1,6 +1,6 @@
 # node-red-contrib-www-example1
 
-![Version: 0.0.2](https://img.shields.io/badge/Version-0.0.2-green.svg)
+![Version: 0.0.3](https://img.shields.io/badge/Version-0.0.3-green.svg)
 
 
 ## Overview
@@ -26,7 +26,6 @@ annotations property:
 ```
 
 **When setting with the previous function node**
-
 msg.annotations 
 
 ```html:example
@@ -56,14 +55,13 @@ attachments property:
 ```
 
 **When setting with the previous function node**
-
 msg.attachments 
 
 ```html:example
 msg.attachments = [{
-    type: CARD, 
+    type: "CARD", 
     cardInput: { 
-        type: INFORMATION, 
+        type: "INFORMATION", 
         informationCardInput: { 
             title: "Sample Title", 
             subtitle: "Sample Subtitle", 
@@ -92,6 +90,8 @@ This software includes the work that is distributed in the Apache License 2.0.
 
 
 ## Releace
+
+2017/09/22 v0.0.3 bug fix
 
 2017/09/22 v0.0.2 add parameter of attachments
 

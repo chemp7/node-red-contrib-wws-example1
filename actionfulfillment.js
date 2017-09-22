@@ -175,7 +175,9 @@ module.exports = function(RED) {
 		str = str.replace(/\"id\"/g, 'id');
 		// attachments
 		str = str.replace(/\"type\"/g, 'type');
+		str = str.replace(/\"CARD\"/g, 'CARD');
 		str = str.replace(/\"cardInput\"/g, 'cardInput');
+		str = str.replace(/\"INFORMATION\"/g, 'INFORMATION');
 		str = str.replace(/\"informationCardInput\"/g, 'informationCardInput');
 		str = str.replace(/\"subtitle\"/g, 'subtitle');
 		str = str.replace(/\"date\"/g, 'date');

@@ -83,7 +83,7 @@ module.exports = function(RED) {
 					query = generateQueryStringCreateTargetedMessage(conversationId, targetUserId, targetDialogId, annotations, attachments);
 				}
 		
-				console.log("query: " + query);
+//				console.log("query: " + query);
 				msg.graphQLQuery = query;
 				
 				sendQuery(query, token, function(err, body) {
@@ -126,7 +126,7 @@ module.exports = function(RED) {
 				cb(err);
 			}
 			if (res.statusCode === 200) {
-				console.log("success: "+JSON.stringify(res.body));
+//				console.log("success: "+JSON.stringify(res.body));
 				if (res.body.hasOwnProperty("errors")) {
 					for (var i = 0; i < res.body.errors.length; i++) {
 						console.log("reqponse.body.errors[" + i + "].message: " + res.body.errors[i].message);

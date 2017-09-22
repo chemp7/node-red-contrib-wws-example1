@@ -91,6 +91,8 @@ This software includes the work that is distributed in the Apache License 2.0.
 
 ## Releace
 
+2017/09/22 v0.0.4 fix
+
 2017/09/22 v0.0.3 bug fix
 
 2017/09/22 v0.0.2 add parameter of attachments

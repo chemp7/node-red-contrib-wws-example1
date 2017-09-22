@@ -23,7 +23,8 @@
             wwsApplications: {value:"",type:"wwsApplications"},
             actionId: {value:""},
             queryType: {value:"createTargetedMessage"},
-            annotations: {value:""}
+            annotations: {value:""},
+            attachments: {value:""}
         },
         inputs:1,
         outputs:1,
@@ -69,10 +70,54 @@
 	    <label for="node-input-annotations"><i class="fa fa-window-maximize"></i> annotations</label>
         <input type="text" id="node-input-annotations" placeholder='e.g. [{genericAnnotation: {title: "Sample Title", text: "Sample Body", buttons: [{postbackButton: {title: "Sample Button", id: "Sample_Button", style: PRIMARY}}]}}]'>
     </div>
-    <div class="form-tips">If actionId is set, Query posted if it is the same as the received actionId.</div>
+    <div class="form-row node-prop-row-attachments">
+	    <label for="node-input-attachments"><i class="fa fa-window-restore"></i> attachments</label>
+        <input type="text" id="node-input-attachments" placeholder='e.g. [{type: CARD, cardInput: {type: INFORMATION, informationCardInput: {title: "Sample Title", subtitle: "Sample Subtitle", text: "Sample Text", date: "1500573338000", buttons: [{text: "Sample Button Text", payload: "Sample Button Payload",style: PRIMARY}]}}}]'>
+    </div>
+    <div class="form-tips">If actionId is set, Query posted if it is the same as the received actionId. If actionId is not set, All query posted.</div>
 </script>
 
 <script type="text/x-red" data-help-name="actionfulfillment">
     <p>This node post query of createTargetedMessage.</p>
     <p>This node adds '"x-graphql-view": "PUBLIC, BETA"' in headers.</p>
+    <ul>
+        <li>If <code>msg.actionId</code> is set, Query posted if it is the same as the received actionId. If actionId is not set, All query posted.</li>
+        <li><code>msg.queryType</code> is the parameter in mutation. The currently settable value is <code>createTargetedMessage</code> only.</li>
+        <li><code>msg.annotations</code> is the parameter in createTargetedMessage. <br>
+            e.g. <br>
+                &emsp;    [{ <br>
+                &emsp;&emsp;    genericAnnotation: { <br>
+                &emsp;&emsp;&emsp;    title: "Sample Title", <br> 
+                &emsp;&emsp;&emsp;    text: "Sample Body", <br>
+                &emsp;&emsp;&emsp;    buttons: [{ <br>
+                &emsp;&emsp;&emsp;&emsp;    postbackButton: { <br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;    title: "Sample Button", <br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;    id: "Sample_Button", <br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;    style: "PRIMARY" <br>
+                &emsp;&emsp;&emsp;&emsp;    } <br>
+                &emsp;&emsp;&emsp;    }] <br>
+                &emsp;&emsp;    } <br>
+                &emsp;    }]
+            </li>
+        <li><code>msg.attachments</code> is the parameter in createTargetedMessage. <br>
+            e.g. <br>
+                &emsp;    [{ <br>
+                &emsp;&emsp;    type: CARD, <br>
+                &emsp;&emsp;    cardInput: { <br>
+                &emsp;&emsp;&emsp;    type: INFORMATION, <br>
+                &emsp;&emsp;&emsp;    informationCardInput: { <br>
+                &emsp;&emsp;&emsp;&emsp;    title: "Sample Title", <br>
+                &emsp;&emsp;&emsp;&emsp;    subtitle: "Sample Subtitle", <br>
+                &emsp;&emsp;&emsp;&emsp;    text: "Sample Text", <br>
+                &emsp;&emsp;&emsp;&emsp;    date: "1500573338000", <br>
+                &emsp;&emsp;&emsp;&emsp;    buttons: [{ <br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;    text: "Sample Button Text", <br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;    payload: "Sample Button Payload", <br>
+                &emsp;&emsp;&emsp;&emsp;&emsp;    style: "PRIMARY" <br>
+                &emsp;&emsp;&emsp;&emsp;    }] <br>
+                &emsp;&emsp;&emsp;    } <br>
+                &emsp;&emsp;    } <br>
+                &emsp;    }]
+        </li>
+    </ul>
 </script>

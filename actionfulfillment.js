@@ -24,7 +24,8 @@ module.exports = function(RED) {
 		this.wwsApplications = RED.nodes.getNode(n.wwsApplications);
         var nodeQueryType = n.queryType || "use";
         var nodeActionId = n.actionId;
-        var nodeAnnotations = n.annotations;
+		var nodeAnnotations = n.annotations;
+		var nodeAttachments = n.attachments;
 		
 		this.on('input', function(msg) {
 			var appId = this.wwsApplications.appId;
@@ -32,6 +33,7 @@ module.exports = function(RED) {
 			var token = this.wwsApplications.accessToken;
 			var node = this;
 			var annotations = "";
+			var attachments = "";
 
 			if (typeof msg.payload == "string") {
 				try {
@@ -42,10 +44,14 @@ module.exports = function(RED) {
 			}
 
 			if (msg.hasOwnProperty("annotations")) {
-				annotations = generateStringAnnotations(msg.annotations);
+				annotations = generateString(msg.annotations);
 			}
 //			console.log(annotations);
-			
+			if (msg.hasOwnProperty("attachments")) {
+				attachments = generateString(msg.attachments);
+			}
+//			console.log(attachments);
+
 			var queryType = msg.queryType;
 			var actionId = msg.actionId;			
 			var query;
@@ -67,17 +73,19 @@ module.exports = function(RED) {
 			
 			if (nodeQueryType !== "use") { queryType = nodeQueryType; }
 			if (nodeAnnotations !== "") { annotations = nodeAnnotations; }
-
+			if (nodeAttachments !== "") { attachments = nodeAttachments; }
+			
 			if (nodeActionId !== "" && nodeActionId !== actionId) {
 					node.status({fill:"blue",shape:"dot",text:"This msg was not the target actionId."});
 					node.send(msg);
 			} else {
 				if (queryType === "createTargetedMessage") {
-					query = generateQueryStringCreateTargetedMessage(conversationId, targetUserId, targetDialogId, annotations);
+					query = generateQueryStringCreateTargetedMessage(conversationId, targetUserId, targetDialogId, annotations, attachments);
 				}
 		
-//				console.log("query: " + query);
-					
+				console.log("query: " + query);
+				msg.graphQLQuery = query;
+				
 				sendQuery(query, token, function(err, body) {
 					if (err) {
 						node.error("Query error: " + query +" (error: " + err + ")");
@@ -135,24 +143,32 @@ module.exports = function(RED) {
 		});	
 	}
 
-	function generateQueryStringCreateTargetedMessage(conversationId, targetUserId, targetDialogId, annotations) {
+	function generateQueryStringCreateTargetedMessage(conversationId, targetUserId, targetDialogId, annotations, attachments) {
 		var query = "mutation {" + "createTargetedMessage(input: {" +
-		'conversationId: "' + conversationId + '"' +
-		'targetUserId: "' + targetUserId + '"' +
-		'targetDialogId: "' + targetDialogId + '"' +
-		'annotations: ' + annotations +
-		'attachments: []' + 
-		'}) {successful}}';
+		'conversationId: "' + conversationId + '" ' +
+		'targetUserId: "' + targetUserId + '" ' +
+		'targetDialogId: "' + targetDialogId + '" ';
+		if (annotations !== "") {
+			query = query + 'annotations: ' + annotations + ' ';
+		} else {
+			query = query + 'annotations: []';
+		}
+		if (attachments !== "") {
+			query = query + 'attachments: ' + attachments + ' ';
+		} else {
+			query = query + 'attachments: []';
+		}
+		query = query + '}) {successful}}';
 
 		return query;
 	}
 
-	function generateStringAnnotations(annotations) {
+	function generateString(value) {
 		var str = "";
 		try {
-			str = JSON.stringify(annotations);
+			str = JSON.stringify(value);
 		}
-		catch(e) { node.error("JSON Parse error (msg.annotations): " + msg.annotations); }
+		catch(e) { node.error("JSON Parse error (annotations or attachments): " + value); }
 		// generic annotation
 		str = str.replace(/\"genericAnnotation\"/g, 'genericAnnotation');
 		str = str.replace(/\"postbackButton\"/g, 'postbackButton');

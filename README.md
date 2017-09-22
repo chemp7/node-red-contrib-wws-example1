@@ -26,6 +26,7 @@ annotations property:
 ```
 
 **When setting with the previous function node**
+
 msg.annotations 
 
 ```html:example
@@ -55,6 +56,7 @@ attachments property:
 ```
 
 **When setting with the previous function node**
+
 msg.attachments 
 
 ```html:example

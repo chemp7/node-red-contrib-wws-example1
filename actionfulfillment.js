@@ -67,7 +67,7 @@ module.exports = function(RED) {
 			}
 //			console.log("annotationPayload: " + annotationPayload);
 			var conversationId = annotationPayload.conversationId;
-			var targetUserId = annotationPayload.updatedBy;
+			var targetUserId = msg.payload.userId;
 			var targetDialogId = annotationPayload.targetDialogId;
 			var actionId = annotationPayload.actionId;
 			

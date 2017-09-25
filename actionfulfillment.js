@@ -122,7 +122,7 @@ module.exports = function(RED) {
 
 		request(options, function(err, res) {
 			if (err) {
-				console.log("error: query = " + _query);
+//				console.log("error: query = " + _query);
 				cb(err);
 			}
 			if (res.statusCode === 200) {
@@ -136,7 +136,7 @@ module.exports = function(RED) {
 					cb(null, JSON.stringify(res.body.data));
 				}
 			} else {
-				console.log("error: statusCode = " + res.statusCode);
+//				console.log("error: statusCode = " + res.statusCode);
 				cb(true);
 			}
 			return;
@@ -151,12 +151,12 @@ module.exports = function(RED) {
 		if (annotations !== "") {
 			query = query + 'annotations: ' + annotations + ' ';
 		} else {
-			query = query + 'annotations: []';
+			query = query + 'annotations: [] ';
 		}
 		if (attachments !== "") {
 			query = query + 'attachments: ' + attachments + ' ';
 		} else {
-			query = query + 'attachments: []';
+			query = query + 'attachments: [] ';
 		}
 		query = query + '}) {successful}}';
 

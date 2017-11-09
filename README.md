@@ -1,6 +1,6 @@
 # node-red-contrib-www-example1
 
-![Version: 0.0.3](https://img.shields.io/badge/Version-0.0.3-green.svg)
+![Version: 0.0.7](https://img.shields.io/badge/Version-0.0.7-green.svg)
 
 
 ## Overview
@@ -90,6 +90,10 @@ This software includes the work that is distributed in the Apache License 2.0.
 
 
 ## Releace
+
+2017/11/09 v0.0.7 fix
+
+2017/11/09 v0.0.6 fix
 
 2017/11/09 v0.0.5 fix
 
